@@ -1,18 +1,16 @@
-import React from 'react'
-import { View, Text, StyleSheet, SafeAreaView } from 'react-native'
+import React from 'react';
+import {View, Text, StyleSheet, SafeAreaView} from 'react-native';
+import Header from './src/components/Header';
 
 const App = () => {
   return (
-    <SafeAreaView>
     <View>
       <Text>App</Text>
+      <Header />
     </View>
-    </SafeAreaView>
-  )
-}
+  );
+};
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create({});
 
-})
-
-export default App
+export default App;
