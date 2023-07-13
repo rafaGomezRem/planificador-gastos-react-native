@@ -1,10 +1,12 @@
 import {View, Text, StyleSheet, TextInput, Pressable} from 'react-native';
-import React, { useState } from 'react';
+import React, {useState} from 'react';
+import globalStyles from '../styles';
 
-const NuevoPresupuesto = ({ handleNuevoPresupuesto }) => {
-  const [presupuesto, setPresupuesto] = useState(0)
-
-  
+const NuevoPresupuesto = ({
+  presupuesto,
+  setPresupuesto,
+  handleNuevoPresupuesto,
+}) => {
   return (
     <View style={styles.contenedor}>
       <Text style={styles.label}>Presupuesto</Text>
@@ -15,9 +17,9 @@ const NuevoPresupuesto = ({ handleNuevoPresupuesto }) => {
         value={presupuesto.toString()}
         onChangeText={setPresupuesto}
       />
-      <Pressable style={styles.boton}
-        onPress={() => handleNuevoPresupuesto(presupuesto)}
-      >
+      <Pressable
+        style={styles.boton}
+        onPress={() => handleNuevoPresupuesto(presupuesto)}>
         <Text style={styles.botonTexto}>Agregar Presupuesto</Text>
       </Pressable>
     </View>
@@ -26,46 +28,32 @@ const NuevoPresupuesto = ({ handleNuevoPresupuesto }) => {
 
 const styles = StyleSheet.create({
   contenedor: {
-    backgroundColor: '#FFF',
-    marginHorizontal: 10,
-    borderRadius: 10,
-    paddingVertical: 40,
-    paddingHorizontal: 20,
-    transform: [{translateY: 50}],
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.23,
-    shadowRadius: 2.62,
-    elevation: 4,
+    ...globalStyles.contenedor,
   },
   label: {
     textAlign: 'center',
     fontSize: 24,
     color: '#3B82F6',
-    marginBottom: 10
-
+    marginBottom: 10,
   },
   input: {
     backgroundColor: '#F5F5F5',
     padding: 10,
     borderRadius: 10,
     textAlign: 'center',
-    marginTop: 30
+    marginTop: 30,
   },
   boton: {
     marginTop: 30,
     backgroundColor: '#1048A4',
     padding: 10,
-    borderRadius: 10
+    borderRadius: 10,
   },
   botonTexto: {
     color: '#FFF',
     textAlign: 'center',
     textTransform: 'uppercase',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
 });
 
