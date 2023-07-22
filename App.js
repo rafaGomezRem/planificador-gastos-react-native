@@ -1,9 +1,19 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, Alert, Pressable, Image, Modal} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Alert,
+  Pressable,
+  Image,
+  Modal,
+  ScrollView,
+} from 'react-native';
 import Header from './src/components/Header';
 import NuevoPresupuesto from './src/components/NuevoPresupuesto';
 import ControlPresupuesto from './src/components/ControlPresupuesto';
 import FormularioGasto from './src/components/FormularioGasto';
+import {generarId} from './src/helpers';
+import ListadoGastos from './src/components/ListadoGastos';
 
 const App = () => {
   const [isValidPresupuesto, setIsValidPresupuesto] = useState(false);
@@ -19,21 +29,34 @@ const App = () => {
     }
   };
 
+  const handleGasto = gasto => {
+    if (Object.values(gasto).includes('')) {
+      Alert.alert('Error', 'Todos los campos son obligatorios');
+      return;
+    }
+    gasto.id = generarId();
+    setGastos([...gastos, gasto]);
+    setModal(!modal);
+  };
+
   return (
     <View style={styles.contenedor}>
-      <View style={styles.header}>
-        <Header />
-        {isValidPresupuesto ? (
-          <ControlPresupuesto presupuesto={presupuesto} gastos={gastos} />
-        ) : (
-          <NuevoPresupuesto
-            presupuesto={presupuesto}
-            setPresupuesto={setPresupuesto}
-            handleNuevoPresupuesto={handleNuevoPresupuesto}
-          />
-        )}
-      </View>
+      <ScrollView>
+        <View style={styles.header}>
+          <Header />
+          {isValidPresupuesto ? (
+            <ControlPresupuesto presupuesto={presupuesto} gastos={gastos} />
+          ) : (
+            <NuevoPresupuesto
+              presupuesto={presupuesto}
+              setPresupuesto={setPresupuesto}
+              handleNuevoPresupuesto={handleNuevoPresupuesto}
+            />
+          )}
+        </View>
 
+        {isValidPresupuesto && <ListadoGastos gastos={gastos} />}
+      </ScrollView>
       {modal && (
         <Modal
           animationType="slide"
@@ -41,7 +64,7 @@ const App = () => {
           onRequestClose={() => {
             setModal(!modal);
           }}>
-          <FormularioGasto setModal={setModal} />
+          <FormularioGasto setModal={setModal} handleGasto={handleGasto} />
         </Modal>
       )}
 
@@ -67,13 +90,14 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: '#3bb2f6',
+    minHeight:400
   },
   imagen: {
     width: 60,
     height: 60,
     position: 'absolute',
-    top: 90,
-    right: 20,
+    right: 30,
+    bottom: 20
   },
 });
 
