@@ -20,6 +20,7 @@ const App = () => {
   const [presupuesto, setPresupuesto] = useState(0);
   const [gastos, setGastos] = useState([]);
   const [modal, setModal] = useState(false);
+  const [gasto, setGasto] = useState({});
 
   const handleNuevoPresupuesto = presupuesto => {
     if (Number(presupuesto) > 0) {
@@ -34,7 +35,11 @@ const App = () => {
       Alert.alert('Error', 'Todos los campos son obligatorios');
       return;
     }
+
+    //Añadir el nuevo gasto al state
     gasto.id = generarId();
+    gasto.fecha = Date.now();
+
     setGastos([...gastos, gasto]);
     setModal(!modal);
   };
@@ -55,7 +60,13 @@ const App = () => {
           )}
         </View>
 
-        {isValidPresupuesto && <ListadoGastos gastos={gastos} />}
+        {isValidPresupuesto && (
+          <ListadoGastos
+            gastos={gastos}
+            setModal={setModal}
+            setGasto={setGasto}
+          />
+        )}
       </ScrollView>
       {modal && (
         <Modal
@@ -64,7 +75,12 @@ const App = () => {
           onRequestClose={() => {
             setModal(!modal);
           }}>
-          <FormularioGasto setModal={setModal} handleGasto={handleGasto} />
+          <FormularioGasto
+            setGasto={setGasto}
+            setModal={setModal}
+            gasto={gasto}
+            handleGasto={handleGasto}
+          />
         </Modal>
       )}
 
@@ -90,14 +106,14 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: '#3bb2f6',
-    minHeight:400
+    minHeight: 400,
   },
   imagen: {
     width: 60,
     height: 60,
     position: 'absolute',
     right: 30,
-    bottom: 20
+    bottom: 20,
   },
 });
 

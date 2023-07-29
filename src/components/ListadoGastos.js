@@ -2,14 +2,17 @@ import { View, Text, StyleSheet } from 'react-native'
 import React from 'react'
 import Gasto from './Gasto'
 
-const ListadoGastos = ({ gastos }) => {
+const ListadoGastos = ({ gastos, setModal, setGasto }) => {
     return (
     <View style={styles.contenedor}>  
       <Text style={styles.titulo}>ListadoGastos</Text>
         {gastos.length === 0 ? <Text style={styles.noGastos}>No hay gastos</Text> : gastos.map(gasto => (
             <Gasto 
+            setGasto={setGasto}
             key={gasto.id}
-            gasto={gasto}/>
+            gasto={gasto}
+            setModal={setModal}
+            />
         )) }
     </View>
   )
